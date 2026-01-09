@@ -24,9 +24,13 @@ from nnunet.training.network_training.nnUNetTrainerCascadeFullRes import nnUNetT
 from nnunet.training.network_training.nnUNetTrainerV2_CascadeFullRes import nnUNetTrainerV2CascadeFullRes
 from nnunet.utilities.task_name_id_conversion import convert_id_to_task_name
 
-
+#os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 def main():
     parser = argparse.ArgumentParser()
+    # parser.add_argument("-network",default='3d_fullres')  # 3d_fullres
+    # parser.add_argument("-network_trainer",default='nnUNetTrainerV2')  # nnUNetTrainerV2
+    # parser.add_argument("-task", help="can be task name or task id",default=4) # 24
+    # parser.add_argument("-fold", help='0, 1, ..., 5 or \'all\'',default=3) # 3
     parser.add_argument("network")
     parser.add_argument("network_trainer")
     parser.add_argument("task", help="can be task name or task id")
@@ -118,9 +122,11 @@ def main():
     # interp_order_z = args.interp_order_z
     # force_separate_z = args.force_separate_z
 
-    if not task.startswith("Task"):
-        task_id = int(task)
-        task = convert_id_to_task_name(task_id)
+    # if not task.startswith("Task"):
+    #     task_id = int(task)
+    #     task = convert_id_to_task_name(task_id)
+    #task_id = 4
+    task = 'Task003_Hippocampus'
 
     if fold == 'all':
         pass
@@ -202,4 +208,5 @@ def main():
 
 
 if __name__ == "__main__":
+    print("哈哈哈哈哈哈哈")
     main()

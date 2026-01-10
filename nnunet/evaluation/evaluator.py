@@ -37,6 +37,7 @@ class Evaluator:
     default_metrics = [
         "False Positive Rate",
         "Dice",
+        "Hausdorff Distance 95",
         "Jaccard",
         "Precision",
         "Recall",

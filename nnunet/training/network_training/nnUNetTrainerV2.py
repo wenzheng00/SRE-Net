@@ -34,6 +34,7 @@ from torch import nn
 from torch.cuda.amp import autocast
 from nnunet.training.learning_rate.poly_lr import poly_lr
 from batchgenerators.utilities.file_and_folder_operations import *
+from nnunet.training.optim.adam import AdamOptimizer
 
 
 class nnUNetTrainerV2(nnUNetTrainer):
@@ -45,8 +46,8 @@ class nnUNetTrainerV2(nnUNetTrainer):
                  unpack_data=True, deterministic=True, fp16=False):
         super().__init__(plans_file, fold, output_folder, dataset_directory, batch_dice, stage, unpack_data,
                          deterministic, fp16)
-        self.max_num_epochs = 1000
-        self.initial_lr = 1e-2
+        self.max_num_epochs = 100
+        self.initial_lr = 0.001
         self.deep_supervision_scales = None
         self.ds_loss_weights = None
 
@@ -163,8 +164,9 @@ class nnUNetTrainerV2(nnUNetTrainer):
 
     def initialize_optimizer_and_scheduler(self):
         assert self.network is not None, "self.initialize_network must be called first"
-        self.optimizer = torch.optim.SGD(self.network.parameters(), self.initial_lr, weight_decay=self.weight_decay,
-                                         momentum=0.99, nesterov=True)
+        self.optimizer = AdamOptimizer(self.network.parameters())
+        # self.optimizer = torch.optim.SGD(self.network.parameters(), self.initial_lr, weight_decay=self.weight_decay,
+        #                                  momentum=0.99, nesterov=True)
         self.lr_scheduler = None
 
     def run_online_evaluation(self, output, target):

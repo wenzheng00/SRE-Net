@@ -353,7 +353,7 @@ class DC_and_CE_loss(nn.Module):
             ce_loss = ce_loss.sum() / mask.sum()
 
         if self.aggregate == "sum":
-            result = self.weight_ce * ce_loss + self.weight_dice * dc_loss
+            result =  1* ce_loss +  1* dc_loss
         else:
             raise NotImplementedError("nah son") # reserved for other stuff (later)
         return result
